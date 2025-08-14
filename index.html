@@ -147,64 +147,63 @@
   </div>
   <script src="chatscript.js"></script>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      let selectedRole = null;
-      document.querySelectorAll('.role-card').forEach(card => {
-        card.addEventListener('click', () => {
-          selectedRole = card.dataset.role;
-          document.getElementById('login-form-container').style.display = 'block';
-          document.getElementById('selected-role').textContent = selectedRole.charAt(0).toUpperCase() + selectedRole.slice(1);
-        });
-      });
-      const loginForm = document.getElementById('login-form');
-      loginForm.addEventListener('submit', async function (event) {
-        event.preventDefault();
-        const email = document.getElementById('username').value;
-        const password = document.getElementById('password').value;
-        let url = '';
-        let body = {};
-        if (selectedRole === 'administrator') {
-          url = 'http://localhost:5000/adminlogin';
-          body = { adminemail: email, adminpass: password };
-        } else if (selectedRole === 'faculty') {
-          url = 'http://localhost:5000/facultylogin';
-          body = { facultyemail: email, facultypass: password };
-        } else if (selectedRole === 'student') {
-          url = 'http://localhost:5000/studentlogin';
-          body = { studentemail: email, studentpassword: password };
-        } else {
-          alert('Please select a role before logging in.');
-          return;
-        }
-        try {
-          const response = await fetch(url, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(body)
-          });
-          const data = await response.json();
-          if (response.ok) {
-            alert('Login successful!');
-            if (selectedRole === 'administrator') {
-              window.location.href = 'admin.html';
-            } else if (selectedRole === 'faculty') {
-              localStorage.setItem("facultyid", data.facultyid);
-              window.location.href = 'faculty.html';
-            } else if (selectedRole === 'student') {
-              localStorage.setItem("studentid", data.studentid);
-              window.location.href = 'student.html';
-            }
-          } else {
-            alert(data.message || 'Login failed: Wrong credentials');
-          }
-        } catch (err) {
-          console.error('Error:', err);
-          alert('An error occurred during login');
-        }
-      });
-      document.getElementById("current-year").textContent = new Date().getFullYear();
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  let selectedRole = null;
+
+  // Handle role selection
+  document.querySelectorAll('.role-card').forEach(card => {
+    card.addEventListener('click', () => {
+      selectedRole = card.dataset.role;
+      document.getElementById('login-form-container').style.display = 'block';
+      document.getElementById('selected-role').textContent =
+        selectedRole.charAt(0).toUpperCase() + selectedRole.slice(1);
     });
-  </script>
+  });
+
+  // Hardcoded credentials
+  const credentials = {
+    administrator: { email: "admin@example.com", password: "admin123" },
+    faculty: { email: "faculty@example.com", password: "faculty123", facultyid: "F001" },
+    student: { email: "student@example.com", password: "student123", studentid: "S001" }
+  };
+
+  // Handle login form submit
+  const loginForm = document.getElementById('login-form');
+  loginForm.addEventListener('submit', function (event) {
+    event.preventDefault();
+
+    const email = document.getElementById('username').value.trim();
+    const password = document.getElementById('password').value.trim();
+
+    if (!selectedRole) {
+      alert('Please select a role before logging in.');
+      return;
+    }
+
+    const storedCreds = credentials[selectedRole];
+
+    if (storedCreds && email === storedCreds.email && password === storedCreds.password) {
+      alert('Login successful!');
+      if (selectedRole === 'administrator') {
+        window.location.href = 'admin.html';
+      } else if (selectedRole === 'faculty') {
+        localStorage.setItem("facultyid", storedCreds.facultyid);
+        window.location.href = 'faculty.html';
+      } else if (selectedRole === 'student') {
+        localStorage.setItem("studentid", storedCreds.studentid);
+        window.location.href = 'student.html';
+      }
+    } else {
+      alert('Login failed: Wrong credentials');
+    }
+  });
+
+  // Set current year
+  document.getElementById("current-year").textContent = new Date().getFullYear();
+});
+</script>
+
 </body>
 </html>
+
