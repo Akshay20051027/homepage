@@ -100,43 +100,7 @@
     </form>
   </div>
 
-  <script>
-    function loadParentData() {
-      const parentId = document.getElementById("parentIdInput").value;
-      fetch("http://localhost:5000/viewallparents")
-        .then(res => res.json())
-        .then(data => {
-          const parent = data.find(p => p.parentid == parentId);
-          if (parent) {
-            document.getElementById("student_name").value = parent.studentname;
-            document.getElementById("progress").value = parent.studentprogress;
-            document.getElementById("parent_name").value = parent.parentname;
-            document.getElementById("email").value = parent.parentemail;
-            document.getElementById("facultyid").value = parent.facultyid;
-            document.getElementById("editParentForm").style.display = "block";
-          } else {
-            alert("Parent ID not found");
-          }
-        });
-    }
-
-    document.getElementById("editParentForm").addEventListener("submit", function(e) {
-      e.preventDefault();
-      const parentId = document.getElementById("parentIdInput").value;
-      fetch(`http://localhost:5000/edit_parent/${parentId}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          student_name: document.getElementById("student_name").value,
-          progress: document.getElementById("progress").value,
-          parent_name: document.getElementById("parent_name").value,
-          email: document.getElementById("email").value,
-          facultyid: document.getElementById("facultyid").value
-        })
-      })
-      .then(res => res.json())
-      .then(data => alert(data.message));
-    });
-  </script>
+  
 </body>
 </html>
+
