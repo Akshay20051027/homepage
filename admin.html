@@ -68,7 +68,7 @@
           </tr>
         </thead>
         <tbody id="faculty-table-body">
-         <td><a href="editfaculity.html?id=101">Edit</a></td>
+         <td><a href="editfacult.html?id=101">Edit</a></td>
         </tbody>
       </table>
     </div>
@@ -76,77 +76,7 @@
   </div>
 </div>
 
-<script>
-  
-  document.getElementById('search-form').addEventListener('submit', function(e) {
-    e.preventDefault();
-    const query = document.getElementById('admin-search').value.trim();
-    if (query) {
-      window.location.href = `/search?query=${encodeURIComponent(query)}`;
-    }
-  });
 
-
-document.addEventListener('DOMContentLoaded', () => {
-  const parentTableBody = document.getElementById('parent-table-body');
-  const facultyTableBody = document.getElementById('faculty-table-body');
-  const searchInput = document.getElementById('admin-search');
-
-  // Fetch and display parents
-  fetch('http://localhost:5000/viewallparents')
-    .then(res => res.json())
-    .then(data => {
-      data.forEach(parent => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-          <td>${parent.parentid || ''}</td>
-          <td>${parent.studentname || ''}</td>
-          <td>${parent.studentprogress || ''}</td>
-          <td>${parent.parentname || ''}</td>
-          <td>${parent.parentemail || ''}</td>
-          <td>${parent.facultyid || ''}</td>
-        `;
-        parentTableBody.appendChild(row);
-      });
-    })
-    .catch(err => {
-      console.error('Error fetching parents:', err);
-    });
-
-  // Fetch and display faculty
-  fetch('http://localhost:5000/viewallfaculties')
-    .then(res => res.json())
-    .then(data => {
-      data.forEach(faculty => {
-        const row = document.createElement('tr');
-        row.innerHTML = `
-          <td>${faculty.facultyid || ''}</td>
-          <td>${faculty.facultyname || ''}</td>
-          <td>${faculty.facultyemail || ''}</td>
-        `;
-        facultyTableBody.appendChild(row);
-      });
-    })
-    .catch(err => {
-      console.error('Error fetching faculty:', err);
-    });
-
-  // Filter search
-  searchInput.addEventListener('input', () => {
-    const query = searchInput.value.toLowerCase();
-
-    document.querySelectorAll('#parent-table-body tr').forEach(row => {
-      const text = row.textContent.toLowerCase();
-      row.style.display = text.includes(query) ? '' : 'none';
-    });
-
-    document.querySelectorAll('#faculty-table-body tr').forEach(row => {
-      const text = row.textContent.toLowerCase();
-      row.style.display = text.includes(query) ? '' : 'none';
-    });
-  });
-});
-</script>
 
   <!-- ✅ Chatbot -->
   <div id="chatbot" class="chatbot">
@@ -187,3 +117,4 @@ document.addEventListener('DOMContentLoaded', () => {
 <script src="chatscript.js"></script>
 </body>
 </html>
+
