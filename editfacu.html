@@ -44,51 +44,7 @@
     </form>
   </div>
 
-  <script>
-    const facultyId = localStorage.getItem("facultyid");
-
-    if (!facultyId) {
-      alert("No faculty ID found. Please login again.");
-      window.location.href = "index.html";
-    }
-
-    // Load faculty details on page load
-    window.onload = () => {
-      fetch("http://localhost:5000/viewallfaculties")
-        .then(res => res.json())
-        .then(data => {
-          const faculty = data.find(f => String(f.facultyid) === String(facultyId));
-          if (faculty) {
-            document.getElementById("name").value = faculty.facultyname;
-            document.getElementById("email").value = faculty.facultyemail;
-          } else {
-            alert("Faculty not found.");
-          }
-        })
-        .catch(err => {
-          console.error("Error fetching faculty data:", err);
-          alert("Error loading faculty data.");
-        });
-    };
-
-    // Handle form submission
-    document.getElementById("editFacultyForm").addEventListener("submit", function(e) {
-      e.preventDefault();
-      fetch(`http://localhost:5000/edit_faculty/${facultyId}`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          name: document.getElementById("name").value,
-          email: document.getElementById("email").value
-        })
-      })
-      .then(res => res.json())
-      .then(data => alert(data.message || "Faculty updated."))
-      .catch(err => {
-        console.error("Error updating faculty:", err);
-        alert("Error updating faculty profile.");
-      });
-    });
-  </script>
+  
 </body>
 </html>
+
