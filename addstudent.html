@@ -47,48 +47,7 @@
     </form>
   </div>
 </div>
-<script>
-document.getElementById('add-student-form').addEventListener('submit', function (event) {
-  event.preventDefault();
-
-  const studentname = document.getElementById('student-name').value;
-  const parentname = document.getElementById('parentname').value;
-  const parentemail = document.getElementById('parentemail').value;
-  const parentpassword = document.getElementById('parentpassword').value;
-  const fee = document.getElementById('student-fee').value;
-  const facultyid = document.getElementById('facultyid').value;
-  const studentprogress = document.getElementById('student-progress').value;
-
-  fetch('http://localhost:5000/add_student', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      studentname: studentname,
-      parentname: parentname,
-      parentemail: parentemail,
-      parentpassword: parentpassword,
-      fee: fee,
-      facultyid: facultyid,
-      studentprogress: studentprogress
-    })
-  })
-  .then(response => response.json())
-  .then(data => {
-    if (data.message === "Student and parent added successfully") {
-      alert("Student added successfully!");
-      window.location.href = 'admin.html';
-    } else {
-      alert("Failed to add student: " + (data.message || "Unknown error"));
-    }
-  })
-  .catch(error => {
-    console.error("Error:", error);
-    alert("An error occurred while adding the student.");
-  });
-});
-</script>
 
 </body>
 </html>
+
