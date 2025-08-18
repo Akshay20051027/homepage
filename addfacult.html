@@ -32,47 +32,9 @@
     </form>
   </div>
 </div>
-<script>
-document.addEventListener('DOMContentLoaded', () => {
-  const form = document.getElementById('add-faculty-form');
 
-  form.addEventListener('submit', async (event) => {
-    event.preventDefault(); // Prevent default form submission
-
-    // Get form data
-    const facultyname = document.getElementById('faculty-name').value;
-    const facultyemail = document.getElementById('faculty-email').value;
-    const facultypass = document.getElementById('faculty-password').value;
-
-    try {
-      const response = await fetch('http://localhost:5000/add_faculty', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          facultyname,
-          facultyemail,
-          facultypass
-        })
-      });
-
-      const result = await response.json();
-
-      if (response.ok) {
-        alert('Faculty added successfully!');
-        window.location.href = 'admin.html';
-      } else {
-        alert('Error: ' + (result.message || result.error || 'Unable to add faculty.'));
-      }
-    } catch (error) {
-      console.error('Request failed', error);
-      alert('An error occurred. Please try again.');
-    }
-  });
-});
-</script>
 
 
 </body>
 </html>
+
