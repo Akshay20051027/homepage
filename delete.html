@@ -82,41 +82,7 @@
     <button id="confirmDelete" class="btn-danger" style="display:none;">Yes, Delete</button>
   </div>
 
-  <script>
-    function loadParentForDeletion() {
-      const parentId = document.getElementById("parentIdInput").value.trim();
-      if (!parentId) {
-        alert("Please enter a Parent ID");
-        return;
-      }
-
-      fetch("http://localhost:5000/viewallparents")
-        .then(res => res.json())
-        .then(data => {
-          const parent = data.find(p => p.parentid == parentId);
-          if (parent) {
-            document.getElementById("confirmText").textContent =
-              `Are you sure you want to delete parent "${parent.parentname}" for student "${parent.studentname}"?`;
-            document.getElementById("confirmDelete").style.display = "inline-block";
-          } else {
-            alert("Parent ID not found");
-          }
-        });
-    }
-
-    document.getElementById("confirmDelete").addEventListener("click", function() {
-      const parentId = document.getElementById("parentIdInput").value.trim();
-      fetch(`http://localhost:5000/delete_parent/${parentId}`, {
-        method: "POST"
-      })
-      .then(res => res.json())
-      .then(data => {
-        alert(data.message);
-        document.getElementById("confirmDelete").style.display = "none";
-        document.getElementById("confirmText").textContent = "";
-        document.getElementById("parentIdInput").value = "";
-      });
-    });
-  </script>
+ 
 </body>
 </html>
+
